@@ -4,6 +4,7 @@ library(dggridR)
 library(rworldmap)
 library(rgeos)
 library(igraph)
+library(raster)
 
 setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/Data')
 
@@ -82,3 +83,25 @@ distance.matrix.east <- shortest.paths(g.east, v=nonbreeding.hex, to=breeding.he
 write.csv(distance.matrix.west, "distanceMatrix_west.csv", row.names=F, col.names=F)
 write.csv(distance.matrix.east, "distanceMatrix_east.csv", row.names=F, col.names=F)
 
+
+
+##  Spatial distribution of energy supply derived from NDVI  ##
+
+NDVI_june <- raster("MOD_NDVI_M_2010-06.TIFF")
+NDVI_dec <- raster("MOD_NDVI_M_2010-12.TIFF")
+NDVI_june.hex <- extract(NDVI_june, hexgrid2[breeding.hex], mean, na.rm=T)
+NDVI_dec.hex <- extract(NDVI_dec, hexgrid2[nonbreeding.hex], mean, na.rm=T)
+energySupply_summer = NDVI_june.hex * 10 
+energySupply_winter = NDVI_dec.hex * 10
+
+# PLOT
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")
+rbPal <- colorRampPalette(c("yellow", "red"))
+datcol <- rbPal(10)[as.numeric(cut(energySupply_summer, breaks= quantile(energySupply_summer, seq(0,1,0.1))))]
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+rbPal <- colorRampPalette(c("light blue", "dark blue"))
+datcol <- rbPal(10)[as.numeric(cut(energySupply_winter, breaks= quantile(energySupply_winter, seq(0,1,0.1))))]
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol) 
+
+write.csv(energySupply_summer, "energySupply_summer.csv", row.names=F, col.names=F)
+write.csv(energySupply_winter, "energySupply_winter.csv", row.names=F, col.names=F)

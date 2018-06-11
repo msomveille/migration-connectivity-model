@@ -63,9 +63,18 @@ plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(pr
 divide = max(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),][which(prevalence.west > 0.66),1])
 
 
+
+# distribution of the number of individuals at breeding and wintering sites
 hist(apply(pathways, 2, sum))   # distribution of the number of individuals at breeding sites
 hist(apply(pathways, 1, sum))   # distribution of the number of individuals at wintering sites
 
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")
+rbPal <- colorRampPalette(c("yellow", "red"))
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+rbPal <- colorRampPalette(c("light blue", "dark blue"))
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
 
 
 ##  Plot the winter redistribution of individuals from a selected breeding site  ##
