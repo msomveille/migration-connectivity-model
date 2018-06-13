@@ -70,10 +70,10 @@ hist(apply(pathways, 1, sum))   # distribution of the number of individuals at w
 
 plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")
 rbPal <- colorRampPalette(c("yellow", "red"))
-datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]
 plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
 rbPal <- colorRampPalette(c("light blue", "dark blue"))
-datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]
 plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
 
 

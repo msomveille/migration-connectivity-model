@@ -1,0 +1,637 @@
+clim.us
+cors=cor(values(clim.us),use='complete.obs')
+corrplot(cors,order = "AOE", addCoef.col = "grey",number.cex=.6)
+dists = 1:100
+c = 1
+dist.cost = exp(-c*dists)
+plot(dists, dist.cost)
+sum(dist.cost)
+dist.cost / (sum(dist.cost))
+dist.cost = dist.cost/sum(dist.cost)
+plot(dists, dist.cost)
+dist.cost*100
+exp(-0.02*(0))
+exp(-0.02*(1))
+exp(-0.02*(2))
+exp(-0.02*(3))
+trav <- seq(0.01,1,0.01)
+plot(trav, exp(-trav))
+plot(trav, exp(-exp(-0.02*3)*trav))
+plot(trav, exp(-exp(-0.02*30)*trav))
+plot(trav, exp(-exp(-0.02*3)*trav))
+points(trav, exp(-exp(-0.02*30)*trav), col="red")
+exp(-1) * exp(-2)
+exp(-1)2)
+exp(-1-2)
+x = seq(0,1,0.1)
+y = exp(-x*5)
+plot(y,y)
+plot(x,y)
+23*13
+250 + 370 + 150 + 70
+150 + 150 + 150
+hexGridPoints <- read.csv("/Users/mariussomveille/Desktop/Hex_grid/isea3h6/isea3h6.csv")
+hexGridPoints <- read.csv("/Users/mariussomveille/Desktop/Yale-MPIO/isea3h6/isea3h6.csv")
+dim(hexGridPoints)
+## Read the point coordinates (downloaded from internet)#
+#
+id=1#
+for(i in 1:dim(hexGridPoints)[1]){#
+	if(is.na(hexGridPoints[i,1]==T)){#
+		hexGridPoints = hexGridPoints[-i,]#
+		id=id+1#
+		hexGridPoints[i,3] = id#
+	}else{#
+		hexGridPoints[i,3] = id#
+	}#
+}#
+hexGridPoints[,4] <- 1:196834#
+hexGridPoints <- hexGridPoints[which(hexGridPoints[,4] <= 189543),]#
+hexGridPoints <- hexGridPoints[,1:3]#
+colnames(hexGridPoints) <- c("Long", "Lat", "hexID")
+library(devtools)
+install.packages('devtools')
+library(devtools)
+install_github('r-barnes/dggridR', vignette=TRUE)
+require(devtools)
+install_github('andreacirilloac/updateR')
+updateR(admin_password = "Cambridge2014")
+library(updateR)
+updateR(admin_password = "Cambridge2014")
+library(dggridR)
+hexgrid <- dgconstruct(projection="ISEA", topology="HEXAGON", res=7, metric=T)
+hexgrid_center <- dgSEQNUM_to_GEO(hexgrid, 1:21872)
+hexgrid_centroids <- cbind(hexgrid_center$lon_deg, hexgrid_center$lat_deg)
+hexgrid_NorthAmerica <- dgcellstogrid(hexgrid, which(hexgrid_center$lon_deg <= -30 & hexgrid_center$lat_deg > 20), frame=F,wrapcells=TRUE)
+plot(hexgrid_NorthAmerica)
+hex_neighbours <- gTouches(hexgrid_NorthAmerica, byid=T)
+library(igraph)
+hex_neighbours <- gTouches(hexgrid_NorthAmerica, byid=T)
+library(gdistance)
+hex_neighbours <- gTouches(hexgrid_NorthAmerica, byid=T)
+library(rgeos)
+hex_neighbours <- gTouches(hexgrid_NorthAmerica, byid=T)
+dim(hex_neighbours)
+hex_neighbours[1:10,1:10]
+sum(hex_neighbours)
+sum(hex_neighbours[1,])
+sum(hex_neighbours[10,])
+sum(hex_neighbours[100,])
+hex_neighbours_list <- list(apply(hex_neighbours, 1, function(x) which(x==TRUE)))
+dim(hex_neighbours_list)
+length(hex_neighbours_list)
+hex_neighbours_list <- as.list(apply(hex_neighbours, 1, function(x) which(x==TRUE)))
+length(hex_neighbours_list)
+head(hex_neighbours_list <- as.list(apply(hex_neighbours, 1, function(x) which(x==TRUE))))
+hex_neighbours_list[[1]]
+hex_neighbours_list[[2]]
+i=1
+c(hexgrid_center$lon_deg[i], hexgrid_center$lat_deg[i])
+c(hexgrid_center$lon_deg[hex_neighbours_list[i]], hexgrid_center$lat_deg[hex_neighbours_list[i]])
+hex_neighbours_list[i]
+hexgrid_center$lon_deg[hex_neighbours_list[i]]
+hexgrid_center$lon_deg[hex_neighbours_list[[i]]]
+cbind(hexgrid_center$lon_deg[hex_neighbours_list[[i]]], hexgrid_center$lat_deg[hex_neighbours_list[[i]]])
+bearingRhumb(c(hexgrid_center$lon_deg[i], hexgrid_center$lat_deg[i]), cbind(hexgrid_center$lon_deg[hex_neighbours_list[[i]]], hexgrid_center$lat_deg[hex_neighbours_list[[i]]]))
+library(geosphere)
+bearingRhumb(c(hexgrid_center$lon_deg[i], hexgrid_center$lat_deg[i]), cbind(hexgrid_center$lon_deg[hex_neighbours_list[[i]]], hexgrid_center$lat_deg[hex_neighbours_list[[i]]]))
+hex_bearings <- list()#
+for(i in 1:hex_neighbours_list){#
+	hex_bearings[[i]] <- bearingRhumb(c(hexgrid_center$lon_deg[i], hexgrid_center$lat_deg[i]), cbind(hexgrid_center$lon_deg[hex_neighbours_list[[i]]], hexgrid_center$lat_deg[hex_neighbours_list[[i]]]))#
+}
+hex_bearings <- list()#
+for(i in 1:10){#
+	hex_bearings[[i]] <- bearingRhumb(c(hexgrid_center$lon_deg[i], hexgrid_center$lat_deg[i]), cbind(hexgrid_center$lon_deg[hex_neighbours_list[[i]]], hexgrid_center$lat_deg[hex_neighbours_list[[i]]]))#
+}
+hex_bearings
+?getdata
+library(raster)
+Temp_summer <- getdata("worldclim", var="tmin", res=5)
+library(raster)
+Temp_summer <- getData("worldclim", var="tmin", res=5)
+dim(Temp_summer)
+plot(Temp_summer[[1]])
+plot(Temp_summer[[6]])
+?rdist
+8.71 / 5
+(1+2.24+4)/3
+28.71 / 10
+Me = 10
+M = 50
+6.7*(Me^0.6452) / 6.7*(M^0.6452)
+10/50
+(Me^0.6452) / (M^0.6452)
+(10^0.6452) / (50^0.6452)
+(6.7*(Me^0.6452)) / (6.7*(M^0.6452))
+body.sizes <- read.csv("~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/Body_size_birds.csv")
+dim(body.sizes)
+hist(body.sizes)
+hist(body.sizes[,1])
+sample(body.sizes[,1], 1)
+data.sibly <- read.csv("~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/dataSibly.csv")
+dim(data.sibly)
+head(data.sibly)
+plot(data.sibly$log10.mass, data.sibly$log10.productivity, pch=20)
+plot(10^data.sibly$log10.mass, 10^data.sibly$log10.productivity, pch=20)
+10^(log(8,base=10))
+10^(log(10,base=10))
+hist(10^data.sibly$log10.productivity)
+productivity.nomass <- (10^data.sibly$log10.productivity) * (10^data.sibly$log10.mass)
+hist(productivity.nomass)
+plot(data.sibly$log10.mass, log(productivity.nomass,base=10), pch=20)
+summary(lm(log(productivity.nomass,base=10) ~ data.sibly$log10.mass))
+10^(0.367)
+Me
+Me = 0.367 + 0.6231*log(M, base=10)
+Me
+M
+Me = 10^(0.367 + 0.6231*log(M, base=10))
+Me
+Me = 2.328 *(M^0.6231)
+Me
+2.328^0.6452
+Me = ((2.328*(M^0.64))^0.64) / (M^0.64)
+Me
+M
+Me = 1.725 * (M^0.64)
+Me
+((2.328*(M^0.64))^0.64)
+1.725*(M^(2*0.64))
+1.725*((M^0.64)^0.64)
+0.64*0.64
+0.6452 * 0.6231
+0.4020 - 0.6452
+Me = 1.725 * (M^(-0.2432))
+Mé
+Me
+Me = ((2.328*(M^0.6231))^0.6452) / (M^0.6452)
+Me
+body.sizes <- read.csv("~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/Body_size_birds.csv")
+body.sizes <- read.csv("~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/Body_size_birds.csv")[,1]
+classt(body.sizes)
+class(body.sizes)
+body.sizes
+body.sizes = body.sizes[-which(is.na(body.sizes)==T)]
+length(body.sizes)
+head(body.sizes)
+write.csv("~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/Body_size_birds2.csv")
+write.csv(body.sizes, "~/Desktop/PhD/Chapter 4 – mechanistic model/Loading-data/Body_size_birds2.csv")
+head(body.sizes)
+6.45e-5
+6.45e-5 - 0.000645
+6.45e-5 - 0.00645
+6.45*(10^-5)
+(6.45*(10^-5)) / 0.0000645
+2*(-77.232739 - -100.446938)
+?lrtest
+library(lmtest)
+?lrtest
+AIC_indep = (2*4- - (2*log(-100.446938))
+AIC_indep = (2*4)- - (2*log(-100.446938))
+AIC_indep = (2*4)- - (2*ln(-100.446938))
+log(-1)
+AIC_indep = (2*4)- - (2*l-100.446938)
+AIC_indep = (2*4)- - (2*-100.446938)
+AIC_indep
+AIC_dep = (2*8)- - (2*-77.232739)
+AIC_dep
+2*(-77.232739 - -100.446938)
+2*(-102 - -114)
+AIC_indep = (2*4)- - (2*-114)
+AIC_dep = (2*4)- - (2*-102)
+AIC_indep
+AIC_dep
+AIC_indep = (2*4)- - (2*-101)
+AIC_indep
+AIC_indep = (2*4)- - (2*-79)
+AIC_indep = (2*4)- - (2*-101)
+AIC_dep = (2*4)- - (2*-79)
+AIC_dep
+library(dggridR)#
+library(rworldmap)#
+library(rgeos)#
+library(igraph)#
+#
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/Data')#
+##  Construct an hexagon grid covering the region of interest  ###
+#
+hexgrid <- dgconstruct(projection="ISEA", topology="HEXAGON", res=8, metric=T)#
+hexgrid_center <- dgSEQNUM_to_GEO(hexgrid, 1:65612) # 21872 / 65612#
+hexgrid_centroids <- cbind(hexgrid_center$lon_deg, hexgrid_center$lat_deg)#
+hex_sel <- which(hexgrid_centroids[,1] > -29 & hexgrid_centroids[,1] < 59 & hexgrid_centroids[,2] > -40 & hexgrid_centroids[,2] < 65)#
+hexgrid2 <- dgcellstogrid(hexgrid, hex_sel, frame=F,wrapcells=TRUE)#
+newmap <- getMap(resolution = "low")#
+newmap <- spTransform(newmap, proj4string(hexgrid2))#
+newmap@data$world <- rep(1,length(newmap@data$SOVEREIGNT))#
+newmap <- gUnaryUnion(newmap, id=newmap@data$world)#
+hexgrid2 <- gIntersection(hexgrid2, newmap, byid=T)#
+hexgrid2_centroids <- matrix(unlist(lapply(hexgrid2@polygons, function(x) x@labpt)), byrow=T, ncol=2)#
+##  Load gthe geographical distribution of white storks (downloaded from BirdLife International)  ###
+#
+white.storks.distribution <- readOGR("distribution","Ciconia_ciconia_3835_BL", verbose=FALSE)#
+white.storks.distribution <- spTransform(white.storks.distribution, proj4string(hexgrid2))#
+nonbreeding.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 3),], hexgrid2, byid=T)#
+breeding.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 2),], hexgrid2, byid=T)#
+resident.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 1),], hexgrid2, byid=T)#
+res2 <- which(nonbreeding.grounds + breeding.grounds + resident.grounds > 1)#
+nonbreeding.grounds[res2] <- FALSE#
+breeding.grounds[res2] <- FALSE#
+resident.grounds[res2] <- TRUE
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/migration-connectivity-model')#
+#
+##  Import model outputs  ###
+#
+pathways.west <- read.csv("modelOutput_whiteStorks_west_lambda1.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_lambda1.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+pathways.west <- read.csv("modelOutput_whiteStorks_west_lambda2.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_lambda2.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+hist(apply(pathways, 2, sum))
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+NDVI_june <- raster("MOD_NDVI_M_2010-06.TIFF")#
+NDVI_dec <- raster("MOD_NDVI_M_2010-12.TIFF")
+library(raster)
+NDVI_june <- raster("MOD_NDVI_M_2010-06.TIFF")#
+NDVI_dec <- raster("MOD_NDVI_M_2010-12.TIFF")
+getwd()
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/Data')
+NDVI_june <- raster("MOD_NDVI_M_2010-06.TIFF")#
+NDVI_dec <- raster("MOD_NDVI_M_2010-12.TIFF")
+NDVI_june.hex <- extract(NDVI_june, hexgrid2[breeding.hex], mean, na.rm=T)#
+NDVI_dec.hex <- extract(NDVI_dec, hexgrid2[nonbreeding.hex], mean, na.rm=T)
+neighbours.west <- gTouches(hexgrid2, byid=T)#
+neighbours.west[378,379] <- TRUE  # Connect at gibraltar#
+neighbours.west[379,378] <- TRUE#
+neighbours.west[4526,which(neighbours.west[4526,] == TRUE)] <- FALSE  # Disconnect eastern flyway#
+neighbours.west[4527,which(neighbours.west[4527,] == TRUE)] <- FALSE#
+neighbours.west[4528,which(neighbours.west[4528,] == TRUE)] <- FALSE#
+neighbours.west[4529,which(neighbours.west[4529,] == TRUE)] <- FALSE#
+neighbours.west[4530,which(neighbours.west[4530,] == TRUE)] <- FALSE#
+neighbours.west[4531,which(neighbours.west[4531,] == TRUE)] <- FALSE#
+neighbours.west[4532,which(neighbours.west[4532,] == TRUE)] <- FALSE#
+neighbours.west[4533,which(neighbours.west[4533,] == TRUE)] <- FALSE#
+neighbours.west[4701,which(neighbours.west[4701,] == TRUE)] <- FALSE#
+neighbours.west[4702,which(neighbours.west[4702,] == TRUE)] <- FALSE#
+neighbours.west[4703,which(neighbours.west[4703,] == TRUE)] <- FALSE#
+neighbours.west[4704,which(neighbours.west[4704,] == TRUE)] <- FALSE#
+neighbours.west[4705,which(neighbours.west[4705,] == TRUE)] <- FALSE#
+neighbours.west[4706,which(neighbours.west[4706,] == TRUE)] <- FALSE#
+neighbours.west[4707,which(neighbours.west[4707,] == TRUE)] <- FALSE#
+Conductance.west <- neighbours.west#
+Conductance.west[which(Conductance.west == FALSE)] <- 0#
+Conductance.west[which(Conductance.west == TRUE)] <- 1#
+#
+neighbours.east <- gTouches(hexgrid2, byid=T)#
+Conductance.east <- neighbours.east#
+Conductance.east[which(Conductance.east == FALSE)] <- 0#
+Conductance.east[which(Conductance.east == TRUE)] <- 1#
+# Simulate shortest paths between pairs of breeding and non-breeding hexagons#
+breeding.hex <- which(breeding.grounds==TRUE | resident.grounds==TRUE)#
+nonbreeding.hex <- which(nonbreeding.grounds==TRUE | resident.grounds==TRUE)#
+resident.hex <- which(resident.grounds==TRUE)#
+# Western flyway#
+g.west <- graph.adjacency(Conductance.west, weighted=T)#
+distance.matrix.west <- shortest.paths(g.west, v=nonbreeding.hex, to=breeding.hex, mode="out")#
+# Eastern flyway#
+g.east <- graph.adjacency(Conductance.east, weighted=T)#
+distance.matrix.east <- shortest.paths(g.east, v=nonbreeding.hex, to=breeding.hex, mode="out")
+NDVI_june <- raster("MOD_NDVI_M_2010-06.TIFF")#
+NDVI_dec <- raster("MOD_NDVI_M_2010-12.TIFF")#
+NDVI_june.hex <- extract(NDVI_june, hexgrid2[breeding.hex], mean, na.rm=T)#
+NDVI_dec.hex <- extract(NDVI_dec, hexgrid2[nonbreeding.hex], mean, na.rm=T)
+energySupply_summer = NDVI_june.hex * 10 #
+energySupply_winter = NDVI_dec.hex * 10
+sum(energySupply_summer)
+sum(energySupply_winter)
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(energySupply_summer, breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(energySupply_winter, breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+range(energySupply_summer)
+quantiles(energySupply_summer)
+quantile(energySupply_summer)
+quantile(energySupply_summer, seq(0,1,0.1))
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(10)[as.numeric(cut(energySupply_summer, breaks= quantile(energySupply_summer, seq(0,1,0.1))))]
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(10)[as.numeric(cut(energySupply_winter, breaks= quantile(energySupply_winter, seq(0,1,0.1))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+write.csv(energySupply_summer, "energySupply_summer.csv", row.names=F, col.names=F)#
+write.csv(energySupply_winter, "energySupply_winter.csv", row.names=F, col.names=F)
+energySupply_summer
+as.vector(energySupply_summer)
+as.vector(energySupply_winter)
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/migration-connectivity-model')#
+#
+##  Import model outputs  ###
+#
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(0,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(pathways))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+max(pathways)
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+##  Compute the prevalence of western migrants at each breeding site, and plot its spatial distribution  ###
+#
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha001_beta5.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha001_beta5.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(11)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,100,200,300,400,500,600,700,800,900,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha005_beta5.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha005_beta5.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha01_beta5.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha01_beta5.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha015_beta5.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha015_beta5.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha02_beta5.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha02_beta5.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(0,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha01_beta7.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha01_beta7.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha01_beta3.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha01_beta3.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha01_beta3.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha01_beta3.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+pathways = pathways.west + pathways.east#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(0,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(0,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+dim(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)])
+dim(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),])
+write.csv(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),], "coordinates_breedingHexagons.csv")
+write.csv(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),], "coordinates_breedingHexagons.csv", row.names=F)

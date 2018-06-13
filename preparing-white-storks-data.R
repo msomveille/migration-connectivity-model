@@ -80,6 +80,11 @@ distance.matrix.west <- shortest.paths(g.west, v=nonbreeding.hex, to=breeding.he
 g.east <- graph.adjacency(Conductance.east, weighted=T)
 distance.matrix.east <- shortest.paths(g.east, v=nonbreeding.hex, to=breeding.hex, mode="out")
 
+# Remove wintering sites whose connections to neighbours have been removed to generate the transition/conductance matrix for the western flyway 
+sitesToRemove <- which(apply(distance.matrix.west, 1, sum) == "Inf")
+distance.matrix.west <- distance.matrix.west[-sitesToRemove,]
+distance.matrix.east <- distance.matrix.east[-sitesToRemove,]
+
 write.csv(distance.matrix.west, "distanceMatrix_west.csv", row.names=F, col.names=F)
 write.csv(distance.matrix.east, "distanceMatrix_east.csv", row.names=F, col.names=F)
 
