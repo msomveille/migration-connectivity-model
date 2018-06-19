@@ -1,7 +1,7 @@
 
 function migraConnectivityModel(distanceMatrix_1, distanceMatrix_2, supply_winter, supply_summer, alpha, beta, lambda)
 
-    Nw = length(distanceMatrix_1[:,1])   # Number of wintering sites
+    Nw = length(distanceMatrix_1[:,1])  # Number of wintering sites
     Ns = length(distanceMatrix_1[1,:])   # Number of breeding sites
 
     # Initialise the pathways
@@ -13,7 +13,6 @@ function migraConnectivityModel(distanceMatrix_1, distanceMatrix_2, supply_winte
     function conformity(x, lambda)
 	   L = ((x ./ (1 .- x)).^lambda) ./ (1 .+ ((x ./ (1 .- x)).^lambda))
 	   L[x .== 1] = 1
-
 	   return(L)
     end
 

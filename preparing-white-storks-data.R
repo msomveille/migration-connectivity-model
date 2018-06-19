@@ -24,7 +24,7 @@ hexgrid2 <- gIntersection(hexgrid2, newmap, byid=T)
 hexgrid2_centroids <- matrix(unlist(lapply(hexgrid2@polygons, function(x) x@labpt)), byrow=T, ncol=2)
 
 
-##  Load gthe geographical distribution of white storks (downloaded from BirdLife International)  ##
+##  Load the geographical distribution of white storks (downloaded from BirdLife International)  ##
 
 white.storks.distribution <- readOGR("distribution","Ciconia_ciconia_3835_BL", verbose=FALSE)
 white.storks.distribution <- spTransform(white.storks.distribution, proj4string(hexgrid2))

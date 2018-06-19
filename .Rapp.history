@@ -1,20 +1,3 @@
-clim.us
-cors=cor(values(clim.us),use='complete.obs')
-corrplot(cors,order = "AOE", addCoef.col = "grey",number.cex=.6)
-dists = 1:100
-c = 1
-dist.cost = exp(-c*dists)
-plot(dists, dist.cost)
-sum(dist.cost)
-dist.cost / (sum(dist.cost))
-dist.cost = dist.cost/sum(dist.cost)
-plot(dists, dist.cost)
-dist.cost*100
-exp(-0.02*(0))
-exp(-0.02*(1))
-exp(-0.02*(2))
-exp(-0.02*(3))
-trav <- seq(0.01,1,0.01)
 plot(trav, exp(-trav))
 plot(trav, exp(-exp(-0.02*3)*trav))
 plot(trav, exp(-exp(-0.02*30)*trav))
@@ -609,20 +592,6 @@ plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, 
 rbPal <- colorRampPalette(c("light blue", "dark blue"))#
 datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
 plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
-pathways.west <- read.csv("modelOutput_whiteStorks_west_alpha01_beta3.csv", header=F)#
-pathways.east <- read.csv("modelOutput_whiteStorks_east_alpha01_beta3.csv", header=F)#
-#
-pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
-pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
-#
-pathways = pathways.west + pathways.east#
-plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
-rbPal <- colorRampPalette(c("yellow", "red"))#
-datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
-plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
-rbPal <- colorRampPalette(c("light blue", "dark blue"))#
-datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
-plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
 pathways = pathways.west + pathways.east#
 plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
 rbPal <- colorRampPalette(c("yellow", "red"))#
@@ -635,3 +604,127 @@ dim(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)])
 dim(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),])
 write.csv(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),], "coordinates_breedingHexagons.csv")
 write.csv(hexgrid2_centroids[which(breeding.grounds == TRUE | resident.grounds==TRUE),], "coordinates_breedingHexagons.csv", row.names=F)
+## Load required libraries#
+#
+library(dggridR)#
+library(rworldmap)#
+library(rgeos)#
+library(igraph)#
+#
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/Data')#
+##  Construct an hexagon grid covering the region of interest  ###
+#
+hexgrid <- dgconstruct(projection="ISEA", topology="HEXAGON", res=8, metric=T)#
+hexgrid_center <- dgSEQNUM_to_GEO(hexgrid, 1:65612) # 21872 / 65612#
+hexgrid_centroids <- cbind(hexgrid_center$lon_deg, hexgrid_center$lat_deg)#
+hex_sel <- which(hexgrid_centroids[,1] > -29 & hexgrid_centroids[,1] < 59 & hexgrid_centroids[,2] > -40 & hexgrid_centroids[,2] < 65)#
+hexgrid2 <- dgcellstogrid(hexgrid, hex_sel, frame=F,wrapcells=TRUE)#
+newmap <- getMap(resolution = "low")#
+newmap <- spTransform(newmap, proj4string(hexgrid2))#
+newmap@data$world <- rep(1,length(newmap@data$SOVEREIGNT))#
+newmap <- gUnaryUnion(newmap, id=newmap@data$world)#
+hexgrid2 <- gIntersection(hexgrid2, newmap, byid=T)#
+hexgrid2_centroids <- matrix(unlist(lapply(hexgrid2@polygons, function(x) x@labpt)), byrow=T, ncol=2)#
+##  Load gthe geographical distribution of white storks (downloaded from BirdLife International)  ###
+#
+white.storks.distribution <- readOGR("distribution","Ciconia_ciconia_3835_BL", verbose=FALSE)#
+white.storks.distribution <- spTransform(white.storks.distribution, proj4string(hexgrid2))#
+nonbreeding.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 3),], hexgrid2, byid=T)#
+breeding.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 2),], hexgrid2, byid=T)#
+resident.grounds <- gIntersects(white.storks.distribution[which(white.storks.distribution$SEASONAL == 1),], hexgrid2, byid=T)#
+res2 <- which(nonbreeding.grounds + breeding.grounds + resident.grounds > 1)#
+nonbreeding.grounds[res2] <- FALSE#
+breeding.grounds[res2] <- FALSE#
+resident.grounds[res2] <- TRUE
+setwd('/Users/mariussomveille/Desktop/Yale-MPIO/White Storks/migration-connectivity-model')#
+#
+##  Import model outputs  ###
+#
+pathways.west <- read.csv("modelOutput_whiteStorks_west.csv", header=F)#
+pathways.east <- read.csv("modelOutput_whiteStorks_east.csv", header=F)#
+#
+pathways.west <- apply(pathways.west, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+pathways.east <- apply(pathways.east, c(1,2), function(x) ifelse(x<0.1, 0, x))#
+#
+pathways = pathways.west + pathways.east
+prevalence.west <- apply(pathways.west, 2, sum) / apply(pathways, 2, sum)#
+#
+plot(hexgrid2, col="dark grey", border="dark grey", bg="light grey")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west > 0.66)], add=T, col="orange", border="orange")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west < 0.33)], add=T, col="blue", border="blue")#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)][which(prevalence.west >= 0.33 & prevalence.west <= 0.66)], add=T, col="green", border="green")
+rbPal <- colorRampPalette(c("yellow", "red"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 2, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 2, sum)))))]#
+plot(hexgrid2[which(breeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)#
+rbPal <- colorRampPalette(c("light blue", "dark blue"))#
+datcol <- rbPal(6)[as.numeric(cut(apply(pathways, 1, sum), breaks=c(-0.1,200,400,600,800,1000,max(apply(pathways, 1, sum)))))]#
+plot(hexgrid2[which(nonbreeding.grounds == TRUE | resident.grounds==TRUE)], add=T, col=datcol, border=datcol)
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+#
+plot(x, x, type='l')#
+plot(x, y, type='l', add=T, col="red")
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0.268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+#
+plot(x, x, type='l')#
+plot(x, y, type='l', add=T, col="red")
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0.268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")
+lambda=2#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))
+points(x, y2, type='l', col="blue")
+lambda=3#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="blue")
+lambda=2.8#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="blue")
+lambda=2.7#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="blue")
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0.268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+#
+lambda=2.5#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="blue")
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0.268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+#
+lambda=2.6#
+y2 = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="blue")
+x = seq(0,1,0.1)#
+y = c(0, 0.004, 0.018, 0.096, 0.268, 0.499, 0.738, 0.905, 0.982, 0.999, 1)#
+y2 = c(0, 0.009, 0.058, 0.164, 0.319, 0.499, 0.682, 0.837, 0.944, 0.992, 1)
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="orange")
+lambda=2#
+yy = ((x/(1-x))^lambda) / (1+((x/(1-x))^lambda))#
+#
+plot(x, x, type='l')#
+points(x, y, type='l', col="red")#
+points(x, y2, type='l', col="orange")#
+#
+points(x, yy, type='l', col="blue")
+1000*1000
